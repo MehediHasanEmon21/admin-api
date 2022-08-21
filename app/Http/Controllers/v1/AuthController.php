@@ -48,7 +48,7 @@ class AuthController extends Controller
 
                 $user = auth()->user();
                 $user->token = $user->createToken('MyApp')->plainTextToken;
-                return $this->success(false, 'User Logged Successfully', $user);
+                return $this->success(false, 'Logged In Successfully', $user);
 
             } else {
                 return $this->success(true, 'User Or Password Not Match', null);

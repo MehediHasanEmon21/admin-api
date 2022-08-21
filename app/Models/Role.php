@@ -8,8 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Role extends Model
 {
     use HasFactory;
+    protected $guarded = [];
 
-    protected $fillable = [
-        'name'
-    ];
+    public function scopeDesc($query)
+    {
+        return $query->orderBy('id','desc');
+    }
+
+    public function scopeAsc($query)
+    {
+        return $query->orderBy('id','asc');
+    }
+
 }

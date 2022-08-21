@@ -28,6 +28,7 @@ Route::prefix('v1')->group(function(){
         Route::post('/logout',[AuthController::class,'logout']);
 
         Route::apiResource('/role',RoleController::class);
+        Route::post('/assign-role',[RoleController::class, 'assign_role']);
     });
 });
 

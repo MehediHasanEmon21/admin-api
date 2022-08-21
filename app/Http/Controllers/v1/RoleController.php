@@ -20,7 +20,7 @@ class RoleController extends Controller
     public function index()
     {
         try {
-            $roles = Role::paginate(10);
+            $roles = Role::asc()->get();
             return $this->success(false, 'Roles List Found Successfully', $roles);
         } catch (Exception $e) {
             return $this->success(true, $e->getMessage(), null);
@@ -111,5 +111,23 @@ class RoleController extends Controller
         } catch (Exception $e) {
             return $this->success(true, $e->getMessage(), null);
         }
+    }
+
+    public function assign_role(Request $request){
+
+        try {
+            $role = Role::where('id',$request->id)->first();
+            if($role){
+                // $role = $role->update(['permissions' => $request->resources]);
+                $role->permissions = $request->resources;
+                $role->save();
+                return $this->success(false, 'Permission Assigned Successfully', $role);
+            }else{
+                return $this->success(true, 'Role Not Found', null);
+            }
+        } catch (Exception $e) {
+            return $this->success(true, $e->getMessage(), null);
+        }
+        
     }
 }
