@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\v1;
 
 use Exception;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\UserCreateRequest;
-use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTraits;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\UserCreateRequest;
+use App\Http\Requests\UserUpdateRequest;
 
 class UserController extends Controller
 {   
@@ -26,9 +27,11 @@ class UserController extends Controller
 
  
     public function store(UserCreateRequest $request)
-    {   
+    { 
+        $validatedData = $request->validated();
+        $validatedData['password'] = Hash::make($request->password);
         try {
-            $user = User::create($request->validated());
+            $user = User::create($validatedData);
             if($user){
                 return $this->success(false, 'User Created Successfully', $user);
             }else{
