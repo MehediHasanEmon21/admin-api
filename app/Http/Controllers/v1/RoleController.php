@@ -9,14 +9,10 @@ use App\Http\Controllers\Controller;
 use App\Traits\ResponseTraits;
 
 class RoleController extends Controller
-{   
+{
 
     use ResponseTraits;
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         try {
@@ -26,13 +22,13 @@ class RoleController extends Controller
             return $this->success(true, $e->getMessage(), null);
         }
     }
-   
+
     public function store(Request $request)
     {
         $this->validate($request, [
             'name' => 'required|unique:roles',
         ]);
-        
+
         try {
             $role = Role::create([
                 'name' => $request->name,
@@ -44,12 +40,6 @@ class RoleController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         try {
@@ -60,30 +50,13 @@ class RoleController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $this->validate($request, [
             'name' => 'required',
         ]);
-        
+
         try {
             $role = Role::find($id);
             $role->update([
@@ -96,12 +69,6 @@ class RoleController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         try {
@@ -113,21 +80,21 @@ class RoleController extends Controller
         }
     }
 
-    public function assign_role(Request $request){
+    public function assign_role(Request $request)
+    {
 
         try {
-            $role = Role::where('id',$request->id)->first();
-            if($role){
+            $role = Role::where('id', $request->id)->first();
+            if ($role) {
                 // $role = $role->update(['permissions' => $request->resources]);
                 $role->permissions = $request->resources;
                 $role->save();
                 return $this->success(false, 'Permission Assigned Successfully', $role);
-            }else{
+            } else {
                 return $this->success(true, 'Role Not Found', null);
             }
         } catch (Exception $e) {
             return $this->success(true, $e->getMessage(), null);
         }
-        
     }
 }

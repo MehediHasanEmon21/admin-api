@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\v1\AuthController;
 use App\Http\Controllers\v1\RoleController;
+use App\Http\Controllers\v1\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,8 @@ Route::prefix('v1')->group(function(){
 
         Route::apiResource('/role',RoleController::class);
         Route::post('/assign-role',[RoleController::class, 'assign_role']);
+
+        Route::apiResource('/user',UserController::class);
     });
 });
 
